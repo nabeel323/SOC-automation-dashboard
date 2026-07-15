@@ -1,1 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+    <h2>Results for {{ results.indicator }}</h2>
+    <p class="risk risk-{{ results.risk_label|lower|replace(' ', '-')|replace('/', '') }}">
+        Risk score: {{ results.risk_score }}/100 &mdash; {{ results.risk_label }}
+    </p>
 
+    <h3>VirusTotal</h3>
+    {% if results.virustotal.error %}
+        <p class="error">{{ results.virustotal.error }}</p>
+    {% else %}
+        <ul>
+            <li>Malicious: {{ results.virustotal.malicious }}</li>
+            <li>Suspicious: {{ results.virustotal.suspicious }}</li>
+            <li>Harmless: {{ results.virustotal.harmless }}</li>
+            <li>Undetected: {{ results.virustotal.undetected }}</li>
+        </ul>
+    {% endif %}
+
+    {% if results.whois %}
+        <h3>WHOIS</h3>
+        {% if results.whois.error %}
+            <p class="error">{{ results.whois.error }}</p>
+        {% else %}
+            <ul>
+                <li>Registrar: {{ results.whois.registrar }}</li>
+                <li>Created: {{ results.whois.creation_date }}</li>
+                <li>Expires: {{ results.whois.expiration_date }}</li>
+                <li>Country: {{ results.whois.country }}</li>
+            </ul>
+        {% endif %}
+    {% endif %}
+
+    {% if results.shodan %}
+        <h3>Shodan</h3>
+        {% if results.shodan.error %}
+            <p class="error">{{ results.shodan.error }}</p>
+        {% else %}
+            <ul>
+                <li>Org: {{ results.shodan.org }}</li>
+                <li>OS: {{ results.shodan.os }}</li>
+                <li>Open ports: {{ results.shodan.ports }}</li>
+                <li>Known CVEs: {{ results.shodan.vulns }}</li>
+            </ul>
+        {% endif %}
+    {% endif %}
+
+    <a href="/">&larr; Analyze another indicator</a>
+</section>
+{% endblock %}
