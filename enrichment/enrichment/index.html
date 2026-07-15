@@ -1,1 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+    <h2>Analyze an Indicator</h2>
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    <form action="/analyze" method="post">
+        <label for="indicator">IP / Domain / URL / File Hash</label>
+        <input type="text" id="indicator" name="indicator" placeholder="e.g. 8.8.8.8 or example.com" required>
 
+        <label for="indicator_type">Type</label>
+        <select id="indicator_type" name="indicator_type">
+            <option value="auto">Auto-detect</option>
+            <option value="ip">IP address</option>
+            <option value="domain">Domain</option>
+            <option value="url">URL</option>
+            <option value="hash">File hash</option>
+        </select>
+
+        <button type="submit">Enrich Indicator</button>
+    </form>
+</section>
+{% endblock %}
